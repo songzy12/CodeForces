@@ -7,9 +7,9 @@ print = stdout.write
 # For every i from N to 1, let's say the value of the si is x. 
 # So it means there are k smallest unused numbers whose sum is x.
 # We simply put the (k+1)st number in the output permutation at this i, and continue to move left. 
-# This can be implemented using BIT and binary lifting.  
 
 # segment tree and binary search
+# https://codeforces.com/contest/1208/submission/59913127
 
 _ = input()
 x = [int(i) for i in input().split()]
