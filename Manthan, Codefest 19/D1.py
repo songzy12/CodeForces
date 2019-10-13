@@ -38,8 +38,8 @@ class SegmentTree:
     def __init__(self, array):
         self.root = self.build(array)
 
-    def build(self, array):
-        def _build(array, s, e):
+    def build(self, nums):
+        def _build(nums, s, e):
             if s == e:
                 cur = Node(array[s], s, s, e)
                 return cur
