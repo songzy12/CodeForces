@@ -76,3 +76,5 @@ def solve(w, a):
 
 solve(w, a)
 print()
+
+# MLE: binary search tree
