@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-# advanced data structure
-
-# no, just array
-
+# https://codeforces.com/contest/863/problem/E
 
 # For every moment
 # calculate the number of segments to cover it

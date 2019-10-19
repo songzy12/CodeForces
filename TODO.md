@@ -29,7 +29,9 @@
 * Codeforces Round #579 (Div. 3)
 * Codeforces Round #581 (Div. 2)
 * Educational Codeforces Round 29
-* Educational Codeforces Round 66
 ## Medium
-* Manthan, Codefest 19
+* Educational Codeforces Round 66
 ## Hard
+* Manthan, Codefest 19
+## Done
+
