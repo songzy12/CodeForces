@@ -1,3 +1,5 @@
+# https://codeforces.com/blog/entry/55841
+
 n = int(raw_input())
 a = map(int, raw_input().split())
 
@@ -19,7 +21,7 @@ def one(a):
 
 cnt = a.count(1) # there may be more than 1 in a
 if cnt > 0:
-    print n - cnt
+    print(n - cnt)
 else:
     t, b = one(a)
     while not t and len(b) > 1:
@@ -27,7 +29,7 @@ else:
         a = b
         t, b = one(a)
     if not t:
-        print -1
+        print(-1)
     else:
-        print cnt + n        
+        print(cnt + n)
         

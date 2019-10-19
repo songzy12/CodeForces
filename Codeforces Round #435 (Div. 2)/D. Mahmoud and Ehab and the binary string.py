@@ -1,3 +1,4 @@
+# https://codeforces.com/blog/entry/54590
 from sys import stdout
 n = int(raw_input())
 

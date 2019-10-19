@@ -1,3 +1,4 @@
+# https://codeforces.com/blog/entry/55584
 c = [0] + map(int, raw_input().split())
 
 def same(n1, n2, n3, n4):

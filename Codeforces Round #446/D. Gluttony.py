@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# https://codeforces.com/contest/891/problem/B
+
 # 1: no one can be in their original position
 n = int(raw_input())
 b = map(int, raw_input().split())

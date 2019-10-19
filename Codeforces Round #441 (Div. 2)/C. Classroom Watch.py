@@ -1,3 +1,4 @@
+# https://codeforces.com/blog/entry/55233
 n = int(raw_input())
 
 def check(x):
