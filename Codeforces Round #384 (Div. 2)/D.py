@@ -75,11 +75,11 @@ def dfs_ans(root, part):
         if i == max_set[0][-1]:
             dfs_ans(
                 child,
-                max_set[1][0] if part == None else max(part, max_set[1][0]))
+                max_set[1][0] if part is None else max(part, max_set[1][0]))
         else:
             dfs_ans(
                 child,
-                max_set[0][0] if part == None else max(part, max_set[0][0]))
+                max_set[0][0] if part is None else max(part, max_set[0][0]))
 
 
 dfs_ans(root, None)

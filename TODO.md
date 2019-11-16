@@ -1,3 +1,4 @@
+https://codeforces.com/contests/with/songzy12
 ## Easy
 * Codeforces Beta Round #1
 * Codeforces Beta Round #2
@@ -6,7 +7,6 @@
 * Codeforces Round #305 (Div. 2)
 * Codeforces Round #313 (Div. 2)
 * Codeforces Round #342 (Div. 2)
-* Codeforces Round #384 (Div. 2)
 * Codeforces Round #392 (Div. 2)
 * Codeforces Round #397
 * Codeforces Round #405 (Div. 2)
@@ -33,6 +33,5 @@
 * Educational Codeforces Round 66
 ## Hard
 * Manthan, Codefest 19
+* Codeforces Round #384 (Div. 2)
 ## Done
-
-https://codeforces.com/contests/with/songzy12
