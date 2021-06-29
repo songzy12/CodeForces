@@ -1,0 +1,1 @@
+Editorail: <https://codeforces.com/blog/entry/91906>
