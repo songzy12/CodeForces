@@ -1,4 +1,5 @@
 # https://codeforces.com/contest/1557/problem/C
+# https://codeforces.com/contest/1557/submission/125412943
 
 # n numbers, each has k bits. we want And >= Xor.
 #
@@ -39,30 +40,30 @@ MAX_N = 4 * 10**10
 pow_cache = {}
 
 
-def get_pow_cache(k):
-    if k in pow_cache:
-        return pow_cache[k]
+def get_pow(n, k):
+    if (n, k) in pow_cache:
+        return pow_cache[n, k]
     if k == 0:
         return 1
-    t = get_pow_cache(k // 2)
+    t = get_pow(n, k // 2)
     if k % 2 == 0:
         res = (t * t) % P
     else:
-        res = (t * t * 2) % P
-    pow_cache[k] = res
-    return pow_cache[k]
+        res = (t * t * n) % P
+    pow_cache[n, k] = res
+    return pow_cache[n, k]
 
 
 def solve(n, k):
     if k == 0:
         return 1
     if n % 2 == 1:
-        return ((1 + get_pow_cache(n - 1))**k) % P
+        return get_pow(1 + get_pow(2, n - 1), k) % P
     a = 0
     b = 1
     for i in range(1, k + 1):
-        b = ((get_pow_cache(n - 1) - 1) * (a + b)) % P
-        a = (get_pow_cache((i - 1) * n)) % P
+        b = ((get_pow(2, n - 1) - 1) * (a + b)) % P
+        a = (get_pow(2, (i - 1) * n)) % P
     return (a + b) % P
 
 
