@@ -1,1 +1,2 @@
-<https://codeforces.com/contests/1557>
+<https://codeforces.com/blog/entry/93538>
+<https://codeforces.com/blog/entry/93703>

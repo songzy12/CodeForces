@@ -1,3 +1,4 @@
+# https://codeforces.com/contest/1557/problem/B
 T = int(input())
 for t in range(T):
     n, k = map(int, input().split())

@@ -1,3 +1,4 @@
+# https://codeforces.com/contest/1557/problem/A
 T = int(input())
 for t in range(T):
     n = int(input())
