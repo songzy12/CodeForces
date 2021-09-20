@@ -1,1 +1,1 @@
-Editorail: <https://codeforces.com/blog/entry/91906>
+Editorial: <https://codeforces.com/blog/entry/91906>
