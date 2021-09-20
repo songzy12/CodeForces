@@ -2,4 +2,4 @@
 *.exe
 *.swp
 *.out
-pythonenv3.8
+tmp*

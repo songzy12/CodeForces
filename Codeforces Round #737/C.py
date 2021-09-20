@@ -1,5 +1,6 @@
 # https://codeforces.com/contest/1557/problem/C
 # https://codeforces.com/contest/1557/submission/125412943
+# https://codeforces.com/contest/1557/submission/125416610
 
 # n numbers, each has k bits. we want And >= Xor.
 #
