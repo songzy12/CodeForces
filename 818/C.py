@@ -1,22 +1,15 @@
-def all_equal(l):
-    pivot = l[0]
-    for _, e in enumerate(l):
-        if e != pivot:
-            return False
-    return True
+# https://codeforces.com/blog/entry/106553
+# https://codeforces.com/contest/1717/problem/C
 
 
-def check(i, a, b, n):
+def check(i, a, b):
     if a[i] == b[i]:
         return True
     if a[i] > b[i]:
         return False
-    if b[(i + 1) % n] < b[i] - 1:
+    if b[i + 1] < b[i] - 1:
         return False
-        
-    if (i + 1) % n == 0:
-        return True
-    return check((i + 1) % n, a, b, n)
+    return True
 
 
 T = int(input())
@@ -24,9 +17,18 @@ for t in range(T):
     n = int(input())
     a = list(map(int, input().split()))
     b = list(map(int, input().split()))
-    if all_equal(b):
-        print('Yes')
-        continue
+    a.append(a[0])
+    b.append(b[0])
+
     # for each position i, if ai != bi, then we need ai to be increased to bi.
     # which means, we need to have aj in the right of ai that aj <= bj and bj >= bi - 1.
-    print('Yes' if check(0, a, b, n) else 'No')
+    for i in range(n):
+        if not check(i, a, b):
+            print('No')
+            break
+    else:
+        print('Yes')
+
+# Take away:
+# case 0: b all equal but smaller than the max of a, should be 'No'
+# case 1: b and a with the first element equals is not sufficient for 'Yes'
