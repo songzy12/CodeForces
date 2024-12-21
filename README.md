@@ -1,3 +1,3 @@
 # Codeforces
 
-Solutions for CodeForces Contests: https://codeforces.com/contests.
+Solutions for CodeForces Contests: https://codeforces.com
