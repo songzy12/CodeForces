@@ -6,13 +6,14 @@ def compute(n, s):
     ans = []
     for c in s[::-1]:
         if c == '>':
-            ans= [r] + ans
-            r -=1 
+            ans = [r] + ans
+            r -= 1
         else:
             ans = [l] + ans
             l += 1
     ans = [l] + ans
     return " ".join(map(str, ans))
+
 
 T = int(input())
 for t in range(T):
