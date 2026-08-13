@@ -18,6 +18,21 @@ Run a solution with a test input and compare against expected output:
 python check_solution.py <code_file> <input_file> <expected_output_file>
 ```
 
+You can also run with a flagfile:
+
+```bash
+python check_solution.py @check.flags
+```
+
+Quick start:
+
+```bash
+cp check.flags.example check.flags
+run.sh
+```
+
+`check.flags.example` is tracked as a template, while `check.flags` stays local (`*.flags` is ignored in git).
+
 Example:
 
 ```bash

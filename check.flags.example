@@ -1,0 +1,6 @@
+# Local solution check flags.
+# Copy this file to check.flags and edit values as needed.
+
+--code_file Round/2010/1/A.py
+--input_file Round/2010/1/testdata/A.in
+--expected_output_file Round/2010/1/testdata/A.out

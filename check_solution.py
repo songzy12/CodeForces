@@ -3,6 +3,8 @@
 
 Usage:
     python check_solution.py <code_file> <input_file> <expected_output_file>
+    python check_solution.py --code_file <code_file> --input_file <input_file> --expected_output_file <expected_output_file>
+    python check_solution.py @flags.txt
 """
 
 from __future__ import annotations
@@ -10,6 +12,7 @@ from __future__ import annotations
 import argparse
 import difflib
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -21,12 +24,62 @@ TIMEOUT_SECONDS = 5
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Check whether a solution generates the expected output for a given input."
+        description=
+        "Check whether a solution generates the expected output for a given input.",
+        fromfile_prefix_chars="@",
     )
-    parser.add_argument("code_file", help="Path to the source code file")
-    parser.add_argument("input_file", help="Path to the input file")
-    parser.add_argument("expected_output_file", help="Path to the expected output file")
-    return parser.parse_args()
+    parser.add_argument(
+        "code_file",
+        nargs="?",
+        help="Path to the source code file",
+    )
+    parser.add_argument(
+        "input_file",
+        nargs="?",
+        help="Path to the input file",
+    )
+    parser.add_argument(
+        "expected_output_file",
+        nargs="?",
+        help="Path to the expected output file",
+    )
+    parser.add_argument("--code_file",
+                        dest="code_file_flag",
+                        help="Path to the source code file")
+    parser.add_argument("--input_file",
+                        dest="input_file_flag",
+                        help="Path to the input file")
+    parser.add_argument(
+        "--expected_output_file",
+        dest="expected_output_file_flag",
+        help="Path to the expected output file",
+    )
+
+    def convert_arg_line_to_args(line: str) -> list[str]:
+        # Allow comments and shell-like quoting in flagfiles.
+        stripped = line.split("#", 1)[0].strip()
+        if not stripped:
+            return []
+        return shlex.split(stripped)
+
+    parser.convert_arg_line_to_args = convert_arg_line_to_args
+
+    args = parser.parse_args()
+
+    code_file = args.code_file_flag or args.code_file
+    input_file = args.input_file_flag or args.input_file
+    expected_output_file = args.expected_output_file_flag or args.expected_output_file
+
+    if not (code_file and input_file and expected_output_file):
+        parser.error(
+            "missing required inputs: code_file, input_file, expected_output_file"
+        )
+
+    args.code_file = code_file
+    args.input_file = input_file
+    args.expected_output_file = expected_output_file
+
+    return args
 
 
 def normalize_output(text: str) -> list[str]:
@@ -71,13 +124,12 @@ def build_command(code_path: Path, work_dir: Path) -> list[str]:
     if os.access(code_path, os.X_OK):
         return [str(code_path)]
 
-    raise RuntimeError(
-        f"Unsupported file type: '{suffix or code_path.name}'. "
-        "Supported: .py, .cpp/.cc/.cxx, or executable files."
-    )
+    raise RuntimeError(f"Unsupported file type: '{suffix or code_path.name}'. "
+                       "Supported: .py, .cpp/.cc/.cxx, or executable files.")
 
 
-def run_solution(command: list[str], input_text: str, cwd: Path) -> subprocess.CompletedProcess[str]:
+def run_solution(command: list[str], input_text: str,
+                 cwd: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         command,
         input=input_text,
