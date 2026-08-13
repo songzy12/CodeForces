@@ -1,7 +1,5 @@
-in.txt
 *.exe
 *.swp
-*.out
 tmp*
 
 .venv
