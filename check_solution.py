@@ -159,6 +159,11 @@ def main() -> int:
     input_path = Path(args.input_file).resolve()
     expected_path = Path(args.expected_output_file).resolve()
 
+    print("Check Paths:")
+    print(f"  code:     {code_path}")
+    print(f"  input:    {input_path}")
+    print(f"  expected: {expected_path}")
+
     for path in (code_path, input_path, expected_path):
         if not path.exists():
             print(f"Error: file not found: {path}", file=sys.stderr)
