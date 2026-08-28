@@ -1,62 +1,75 @@
-#include <cstdio>
+// https://codeforces.com/contest/3/problem/A
+
 #include <cmath>
+#include <cstdio>
 #include <iostream>
 #include <map>
 #include <vector>
+
 using namespace std;
 
-int main()
-{
-#ifndef ONLINE_JUDGE
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
-#endif
+vector<string> compute_path(int dx, int dy) {
+    vector<string> path;
+    while (dx != 0 && dy != 0) {
+        if (dx > 0 && dy > 0) {
+            path.push_back("RU");
+            --dx;
+            --dy;
+        } else if (dx > 0 && dy < 0) {
+            path.push_back("RD");
+            --dx;
+            ++dy;
+        } else if (dx < 0 && dy > 0) {
+            path.push_back("LU");
+            ++dx;
+            --dy;
+        } else if (dx < 0 && dy < 0) {
+            path.push_back("LD");
+            ++dx;
+            ++dy;
+        }
+    }
+    while (dx != 0) {
+        if (dx > 0) {
+            path.push_back("R");
+            --dx;
+        } else {
+            path.push_back("L");
+            ++dx;
+        }
+    }
+    while (dy != 0) {
+        if (dy > 0) {
+            path.push_back("U");
+            --dy;
+        } else {
+            path.push_back("D");
+            ++dy;
+        }
+    }
+    return path;
+}
+
+void print_path(vector<string> path) {
+    for (const string& step : path) {
+        puts(step.c_str());
+    }
+}
+
+int main() {
     int x[2], y[2];
-    for (int i = 0; i < 2; ++i)
-    {
+    for (int i = 0; i < 2; ++i) {
         x[i] = getchar();
         scanf("%d", &y[i]);
         getchar();
     }
 
-    int dx = x[1] - x[0], dy = y[1] - y[0];
-    bool l = dx < 0;
-    bool u = dy > 0;
+    int dx = x[1] - x[0];
+    int dy = y[1] - y[0];
+    printf("%d\n", max(abs(dx), abs(dy)));
 
-    int l1 = min(abs(dx), abs(dy)); // note the order
-    dx = abs(dx) - l1;
-    dy = abs(dy) - l1;
-    int l2 = dx + dy;
-
-    printf("%d\n", l1 + l2);
-
-    while (l1--)
-    {
-        if (l && u)
-            puts("LU");
-        else if (l && !u)
-            puts("LD");
-        else if (!l && u)
-            puts("RU");
-        else
-            puts("RD");
-    }
-
-    while (dx--)
-    {
-        if (l)
-            puts("L");
-        else
-            puts("R");
-    }
-
-    while (dy--)
-    {
-        if (u)
-            puts("U");
-        else
-            puts("D");
-    }
+    vector<string> path = compute_path(dx, dy);
+    print_path(path);
 
     return 0;
 }
