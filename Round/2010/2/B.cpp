@@ -40,28 +40,28 @@ const int maxn = 1005;
 
 int matrix[maxn][maxn];
 
-int twos[maxn][maxn];
-int fives[maxn][maxn];
+int count2[maxn][maxn];
+int count5[maxn][maxn];
 
 char path0[maxn][maxn];
 char path2[maxn][maxn];
 char path5[maxn][maxn];
 
-void compute_path_two(int n, int twos[maxn][maxn], char path2[maxn][maxn]) {
+void compute_path(int n, int count[maxn][maxn], char path[maxn][maxn]) {
     const int inf = 0x3f3f3f3f;
     for (int i = 0; i < n; ++i) {
-        twos[i][n] = inf;
-        twos[n][i] = inf;
+        count[i][n] = inf;
+        count[n][i] = inf;
     }
     for (int i = n - 1; i >= 0; i--) {
         for (int j = n - 1; j >= 0; j--) {
             if (i == n - 1 && j == n - 1) continue;
-            if (twos[i + 1][j] < twos[i][j + 1]) {
-                twos[i][j] += twos[i + 1][j];
-                path2[i][j] = 'D';
+            if (count[i + 1][j] < count[i][j + 1]) {
+                count[i][j] += count[i + 1][j];
+                path[i][j] = 'D';
             } else {
-                twos[i][j] += twos[i][j + 1];
-                path2[i][j] = 'R';
+                count[i][j] += count[i][j + 1];
+                path[i][j] = 'R';
             }
         }
     }
@@ -94,8 +94,8 @@ int main() {
     int n;
     scanf("%d", &n);
     memset(matrix, 0, sizeof matrix);
-    memset(twos, 0, sizeof twos);
-    memset(fives, 0, sizeof fives);
+    memset(count2, 0, sizeof count2);
+    memset(count5, 0, sizeof count5);
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -113,29 +113,29 @@ int main() {
                 has_zero = true;
                 row_zero = i;
                 // replace 0 for 10
-                twos[i][j] = 1;
-                fives[i][j] = 1;
+                count2[i][j] = 1;
+                count5[i][j] = 1;
             } else {
                 int x = matrix[i][j];
-                while ((x % 2) == 0) x /= 2, twos[i][j]++;
-                while ((x % 5) == 0) x /= 5, fives[i][j]++;
+                while ((x % 2) == 0) x /= 2, count2[i][j]++;
+                while ((x % 5) == 0) x /= 5, count5[i][j]++;
             }
         }
     }
 
-    compute_path_two(n, twos, path2);
-    compute_path_two(n, fives, path5);
+    compute_path(n, count2, path2);
+    compute_path(n, count5, path5);
 
-    if (has_zero && min(twos[0][0], fives[0][0]) > 1) {
+    if (has_zero && min(count2[0][0], count5[0][0]) > 1) {
         compute_path_zero(n, row_zero, path0);
         puts("1");
         print_path(path0);
     } else {
-        if (twos[0][0] < fives[0][0]) {
-            printf("%d\n", twos[0][0]);
+        if (count2[0][0] < count5[0][0]) {
+            printf("%d\n", count2[0][0]);
             print_path(path2);
         } else {
-            printf("%d\n", fives[0][0]);
+            printf("%d\n", count5[0][0]);
             print_path(path5);
         }
     }

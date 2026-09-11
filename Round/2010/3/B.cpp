@@ -1,82 +1,90 @@
-#include <iostream>
+// https://codeforces.com/contest/3/problem/B
+//
+// Key Ideas:
+// 1. Use prefix sum to easy calculate the total value of selected items.
+// 2. Enumerate through possible values of counts of items of each type.
+
 #include <algorithm>
+#include <deque>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-const int maxn = 1e5;
-pair<int, int> k[maxn + 5];
-pair<int, int> c[maxn + 5];
-int total_k = 0, total_c = 0;
+vector<int> compute_prefix_sum(const deque<pair<int, int>>& items) {
+    vector<int> prefix_sum(items.size() + 1, 0);
+    for (int i = 0; i < items.size(); ++i) {
+        prefix_sum[i + 1] = prefix_sum[i] + items[i].first;
+    }
+    return prefix_sum;
+}
 
-int n, v;
-int res_c, res_k;
+// Comparison function to sort items by their value in descending order.
+bool cmp(pair<int, int> p0, pair<int, int> p1) { return p0.first > p1.first; }
 
-int max_cap = 0;
+void compute(int space, const deque<pair<int, int>>& kayak,
+             const deque<pair<int, int>>& catamaran, int& max_capacity,
+             int& best_kayak_count, int& best_catamaran_count) {
+    vector<int> prefix_sum_kayak = compute_prefix_sum(kayak);
+    vector<int> prefix_sum_catamaran = compute_prefix_sum(catamaran);
 
-void compute()
-{
-    for (int num_k = 0; num_k <= v; ++num_k)
-    { // <= rather than <
-        if (num_k > total_k)
-            break;
-        int num_c = min((v - num_k) / 2, total_c);
-        int temp_cap = 0;
-        if (num_k > 0)
-            temp_cap += k[num_k - 1].first;
-        if (num_c > 0)
-            temp_cap += c[num_c - 1].first;
-        if (temp_cap > max_cap)
-        {
-            max_cap = temp_cap;
-            res_k = num_k;
-            res_c = num_c;
+    max_capacity = 0;
+    best_kayak_count = 0;
+    best_catamaran_count = 0;
+
+    int max_catamaran_count = min<int>(catamaran.size(), space / 2);
+    for (int cat_count = 0; cat_count <= max_catamaran_count; ++cat_count) {
+        int remaining_space = space - 2 * cat_count;
+        int kayak_count = min<int>(kayak.size(), remaining_space);
+        int current_capacity =
+            prefix_sum_catamaran[cat_count] + prefix_sum_kayak[kayak_count];
+
+        if (current_capacity > max_capacity) {
+            max_capacity = current_capacity;
+            best_catamaran_count = cat_count;
+            best_kayak_count = kayak_count;
         }
     }
 }
 
-bool cmp(pair<int, int> p0, pair<int, int> p1)
-{
-    return p0.first > p1.first;
+void print_indices(const deque<pair<int, int>>& kayak,
+                   const deque<pair<int, int>>& catamaran, int best_kayak_count,
+                   int best_catamaran_count) {
+    for (int i = 0; i < best_catamaran_count; ++i) {
+        cout << catamaran[i].second << " ";
+    }
+    for (int i = 0; i < best_kayak_count; ++i) {
+        cout << kayak[i].second << " ";
+    }
+    cout << endl;
 }
 
-int main()
-{
+int main() {
+    int n, v;
     cin >> n >> v;
-    for (int i = 0; i < n; ++i)
-    {
+
+    deque<pair<int, int>> kayak;
+    deque<pair<int, int>> catamaran;
+    for (int i = 0; i < n; ++i) {
         int t, p;
         cin >> t >> p;
-        if (t == 1)
-        {
-            k[total_k++] = make_pair(p, i + 1);
-        }
-        else
-        {
-            c[total_c++] = make_pair(p, i + 1);
+        if (t == 1) {
+            kayak.push_back(make_pair(p, i + 1));
+        } else {
+            catamaran.push_back(make_pair(p, i + 1));
         }
     }
-    sort(k, k + total_k, cmp);
-    sort(c, c + total_c, cmp);
-    for (int i = 1; i < total_k; ++i)
-        k[i].first += k[i - 1].first;
-    for (int i = 1; i < total_c; ++i)
-        c[i].first += c[i - 1].first;
-    compute();
-    cout << max_cap << endl;
-    for (int i = 0; i < res_k; ++i)
-        cout << k[i].second << " ";
-    for (int i = 0; i < res_c; ++i)
-        cout << c[i].second << " ";
-    cout << endl;
+
+    sort(kayak.begin(), kayak.end(), cmp);
+    sort(catamaran.begin(), catamaran.end(), cmp);
+
+    int max_capacity;
+    int best_kayak_count;
+    int best_catamaran_count;
+    compute(v, kayak, catamaran, max_capacity, best_kayak_count,
+            best_catamaran_count);
+
+    cout << max_capacity << endl;
+    print_indices(kayak, catamaran, best_kayak_count, best_catamaran_count);
     return 0;
 }
-
-/* first thought: dp: size of array too large
- * 
- * sort the candidate based on unit capacity
- * then enumerate on the number of type 1
- *
- * WA: num_k <= v
- * TLE: only compute the sum of n candidates once.
- *      only output the index at last
- */
