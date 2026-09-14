@@ -1,3 +1,3 @@
-Annoucement: https://codeforces.com/blog/entry/121579
-
-Editorial: https://codeforces.com/blog/entry/121621
+https://codeforces.com/contest/1883
+* https://codeforces.com/blog/entry/121579
+* https://codeforces.com/blog/entry/121621
