@@ -1,125 +1,81 @@
+// https://codeforces.com/contest/3/problem/C
+
 #include <iostream>
 
 using namespace std;
 
-char grid[3][3];
-
-bool isWon(int player = 0)
-{
-    char p = (player == 0) ? 'X' : '0';
-    bool temp;
-    for (int i = 0; i < 3; ++i)
-    {
-        temp = true;
-        for (int j = 0; j < 3; ++j)
-            if (grid[i][j] != p)
-            {
-                temp = false;
-                break;
-            }
-        if (temp)
+bool isWon(char grid[3][3], char player) {
+    for (int i = 0; i < 3; ++i) {
+        if (grid[i][0] == player && grid[i][1] == player &&
+            grid[i][2] == player)
             return true;
     }
 
-    for (int i = 0; i < 3; ++i)
-    {
-        temp = true;
-        for (int j = 0; j < 3; ++j)
-            if (grid[j][i] != p)
-            {
-                temp = false;
-                break;
-            }
-        if (temp)
+    for (int i = 0; i < 3; ++i) {
+        if (grid[0][i] == player && grid[1][i] == player &&
+            grid[2][i] == player)
             return true;
     }
 
-    temp = true;
-    for (int i = 0; i < 3; ++i)
-    {
-        if (grid[i][i] != p)
-        {
-            temp = false;
-            break;
-        }
-    }
-    if (temp)
+    if (grid[0][0] == player && grid[1][1] == player && grid[2][2] == player)
         return true;
 
-    temp = true;
-    for (int i = 0; i < 3; ++i)
-    {
-        if (grid[2 - i][i] != p)
-        {
-            temp = false;
-            break;
-        }
-    }
-    if (temp)
+    if (grid[2][0] == player && grid[1][1] == player && grid[0][2] == player)
         return true;
 
     return false;
 }
 
-int count[2] = {0};
-
-int getNext()
-{
-    if (count[0] == count[1])
-        return 0;
-    if (count[0] - count[1] == 1)
-        return 1;
-    return -1;
-}
-
-bool isIllegal()
-{
-    if (getNext() == -1)
-        return true;
-    if (isWon(0) && getNext() == 0 || isWon(1) && getNext() == 1)
-        return true;
-    return false;
-}
-
-int main()
-{
-    for (int i = 0; i < 3; ++i)
-        for (int j = 0; j < 3; ++j)
-        {
-            cin >> grid[i][j];
+char getNextPlayer(char grid[3][3]) {
+    int count_O = 0, count_X = 0;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
             if (grid[i][j] == '0')
-                count[1]++;
+                count_O++;
             else if (grid[i][j] == 'X')
-                count[0]++;
+                count_X++;
         }
-    if (isIllegal())
-    {
-        cout << "illegal" << endl;
     }
-    else if (isWon(0))
-    {
-        cout << "the first player won" << endl;
+
+    if (count_X == count_O) return 'X';
+    if (count_X - count_O == 1) return '0';
+    return 'I';
+}
+
+bool isFull(char grid[3][3]) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (grid[i][j] == '.') return false;
+        }
     }
-    else if (isWon(1))
-    {
-        cout << "the second player won" << endl;
+    return true;
+}
+
+bool isIllegal(char grid[3][3]) {
+    if (getNextPlayer(grid) == 'I') return true;
+    if (isWon(grid, 'X') && getNextPlayer(grid) == 'X' ||
+        isWon(grid, '0') && getNextPlayer(grid) == '0')
+        return true;
+    return false;
+}
+
+string getGameState(char grid[3][3]) {
+    if (isIllegal(grid)) return "illegal";
+    if (isWon(grid, 'X')) return "the first player won";
+    if (isWon(grid, '0')) return "the second player won";
+    if (isFull(grid)) return "draw";
+    return (getNextPlayer(grid) == 'X') ? "first" : "second";
+}
+
+int main() {
+    char grid[3][3];
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            cin >> grid[i][j];
+        }
     }
-    else if (count[0] + count[1] == 9)
-    {
-        cout << "draw" << endl;
-    }
-    else
-    {
-        cout << ((getNext() == 0) ? "first" : "second") << endl;
-    }
+
+    cout << getGameState(grid) << endl;
+
     return 0;
 }
-/*
- * XXX
- * ...
- * 000
- *
- * 000
- * X.X
- * X.X
- */
