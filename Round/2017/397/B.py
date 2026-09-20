@@ -1,7 +1,6 @@
-import string
-lower = string.lowercase[:26]
+# https://codeforces.com/contest/765/problem/B
 
-s = raw_input()
+
 def check(s):
     if s and s[0] != 'a':
         return False
@@ -14,5 +13,8 @@ def check(s):
             continue
         return False
     return True
-print 'YES' if check(s) else 'NO'
-    
+
+
+if __name__ == "__main__":
+    s = input()
+    print('YES' if check(s) else 'NO')
