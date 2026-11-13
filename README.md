@@ -10,6 +10,10 @@ https://clist.by/resource/codeforces.com/
 
 https://clist.by/standings/?resource=1
 
+## Codeforces API
+
+Problem information and solved counts: https://codeforces.com/api/problemset.problems
+
 ## Local Checker
 
 Run a solution with a test input and compare against expected output:
